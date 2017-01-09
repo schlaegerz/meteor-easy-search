@@ -31,7 +31,7 @@ class MongoTextIndexEngine extends ReactiveEngine {
    *
    * @param {Object} indexConfig Index configuration
    */
-  onIndexCreate(indexConfig) {
+  onIndexCreate(indexConfig, options) {
     super.onIndexCreate(indexConfig);
 
     if (Meteor.isServer) {
@@ -42,7 +42,7 @@ class MongoTextIndexEngine extends ReactiveEngine {
       });
 
       if (indexConfig.weights) {
-        textIndexesConfig.weights = indexConfig.weights;
+        textIndexesConfig.weights = options.weights;
       }
 
       indexConfig.collection._ensureIndex(textIndexesConfig);
