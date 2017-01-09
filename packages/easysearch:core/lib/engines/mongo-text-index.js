@@ -38,18 +38,15 @@ class MongoTextIndexEngine extends ReactiveEngine {
       let textIndexesConfig = {};
 
       _.each(indexConfig.fields, function (field) {
-        if(field != 'weights')
-        {
           textIndexesConfig[field] = 'text';
-            
-        }
-      });
+       });
 
+      options = {}
       if (indexConfig.weights) {
-        textIndexesConfig.weights = indexConfig.weights;
+        options.weights = indexConfig.weights;
       }
 
-      indexConfig.collection._ensureIndex(textIndexesConfig);
+      indexConfig.collection._ensureIndex(textIndexesConfig, options);
     }
   }
 
