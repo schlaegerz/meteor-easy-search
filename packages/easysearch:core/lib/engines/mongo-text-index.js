@@ -31,18 +31,22 @@ class MongoTextIndexEngine extends ReactiveEngine {
    *
    * @param {Object} indexConfig Index configuration
    */
-  onIndexCreate(indexConfig, options) {
+  onIndexCreate(indexConfig) {
     super.onIndexCreate(indexConfig);
 
     if (Meteor.isServer) {
       let textIndexesConfig = {};
 
       _.each(indexConfig.fields, function (field) {
-        textIndexesConfig[field] = 'text';
+        if(field != 'weights')
+        {
+          textIndexesConfig[field] = 'text';
+            
+        }
       });
 
       if (indexConfig.weights) {
-        textIndexesConfig.weights = options.weights;
+        textIndexesConfig.weights = indexConfig.weights;
       }
 
       indexConfig.collection._ensureIndex(textIndexesConfig);
